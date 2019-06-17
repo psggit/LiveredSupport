@@ -6,17 +6,18 @@
 #complaints {
   &.container .main-header {
     background: #152935;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
-    // letter-spacing: -0.2px;
+    font-style: italic;
+    letter-spacing: -0.2px;
     color: #ffffff;
-    padding: 16px 24px;
+    padding: 18px 33px;
     //height: 66px;
   }
 
   &.container .body {
     width: 100%;
-    height: calc(100vh - 50px);
+    //height: calc(100vh - 50px);
   }
 
   .title {
@@ -34,14 +35,14 @@
   }
 
   .body .header {
-    padding: 16px 24px;
+    padding: 14px 33px;
     height: 66px;
   }
 
   .body .content {
-    padding: 16px 24px;
+    padding: 14px 33px;
     background: #f9f9f9;
-    // height: calc(100% - 66px - 177px);
+    height: calc(100% - 66px - 177px);
   }
 
   label {
@@ -94,7 +95,8 @@
     color: #ffffff;
     width: 90px;
     &:disabled {
-      opacity: 0.7;
+     opacity: 0.6;
+     cursor: not-allowed;
     }
   }
 

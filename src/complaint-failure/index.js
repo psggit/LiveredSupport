@@ -13,7 +13,7 @@ function ComplaintFailure() {
           <div className="failure-text">
             {Icons["failure"]}
             <p className="header text">Something went wrong!</p>
-            <a href="/"><button>Try again</button></a>
+            <a href={`/complaints/${location.pathname.split("/")[2]}`}><button>Try again</button></a>
           </div>
         </div>
         <div className="footer">

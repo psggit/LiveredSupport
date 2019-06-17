@@ -1,7 +1,8 @@
 import React from "react"
 import "./complaints.scss"
 import { POST } from "./../utils/fetch"
-// import { consumer } from "./api"
+
+const consumer = "https://b0f8e465.ngrok.io"
 
 class Complaints extends React.Component {
   constructor() {
@@ -59,32 +60,33 @@ class Complaints extends React.Component {
       })
   }
 
-  handleChange(e) {
-    console.log(e.target.value)
-    this.setState({ reason: e.target.value })
+  handleChange() {
+    const selectedReasonIdx = parseInt(document.getElementById("reason").value)
+    this.setState({
+      reason: this.reasons.find(item => item.value === selectedReasonIdx).text
+    })
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault()
+    document.getElementById("submit-btn").disabled = true
     const { message, ottpId, reason } = this.state
-    this.setState({ isSubmitting: true })
-    POST({
-      api: `/livered/consumer/createComplaints`,
-      //apiBase: "api1",
-      handleError: false,
-      prependBaseUrl: false,
-      data: {
+    const fetchData = {
+      method: 'POST',
+      body: JSON.stringify({
         complaint_message: message,
         ottp_id: ottpId,
         reason
-      }
-    })
+      })
+    }
+    fetch(`${consumer}/livered/consumers/insertComplaints`, fetchData)
       .then((json) => {
-        this.setState({ isSubmitting: false })
         location.href = "/complaint-success"
       })
       .catch((error) => {
-        this.setState({ isSubmitting: false })
-        location.href = "/complaint-failure"
+        document.getElementById("submit-btn").disabled = false
+        const queryParam = location.pathname.split("/")
+        location.href = `/complaint-failure/${queryParam[queryParam.length - 1]}`
       })
   }
 
@@ -103,35 +105,34 @@ class Complaints extends React.Component {
             <p className="sub-title">Ref OTTP ID# {this.state.ottpId}</p>
           </div>
           <div className="content">
-            <div className="form-group">
-              <label>Please select a reason</label>
-              <select id="reason" onChange={this.handleChange}>
-                <option value="" disabled selected>
-                  Choose a reason
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label>Please select a reason</label>
+                <select id="reason" onChange={() => this.handleChange()} required>
+                  <option value="" disabled selected>
+                    Choose a reason
                 </option>
-                {this.reasons.map(item => {
-                  return <option value={item.text}>{item.text}</option>;
-                })}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Message</label>
-              <div>
-                <textarea
-                  placeholder="Write a message"
-                  value={this.state.message}
-                  onChange={this.handleMessageChange}
-                />
-                <p className="os s9"><span id="char_count">{this.state.count}</span> characters {this.state.count < this.characterLimit ? 'remaining' : ''}</p>
+                  {this.reasons.map(item => {
+                    return <option value={item.value}>{item.text}</option>;
+                  })}
+                </select>
               </div>
-            </div>
-            <div className="form-group">
-              <button
-                disabled={(this.state.message.length == 0 || this.state.reason.length == 0) || this.state.isSubmitting}
-                onClick={this.handleSubmit}>
-                {!this.state.isSubmitting ? "Submit" : "Submitting.."}
-              </button>
-            </div>
+              <div className="form-group">
+                <label>Message</label>
+                <div>
+                  <textarea
+                    required
+                    placeholder="Write a message"
+                    value={this.state.message}
+                    onChange={e => this.handleMessageChange(e)}
+                  />
+                  <p className="os s9"><span id="char_count">{this.state.count}</span> characters {this.state.count < this.characterLimit ? 'remaining' : ''}</p>
+                </div>
+              </div>
+              <div className="form-group">
+                <button id="submit-btn">Submit</button>
+              </div>
+            </form>
           </div>
           <div className="footer">
             <div>

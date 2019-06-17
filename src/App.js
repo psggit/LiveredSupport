@@ -16,18 +16,16 @@ function App() {
       <Switch>
         <Route
           exact
-          path="/"
-          component={Complaints}
+          path="/complaint-success"
+          component={ComplaintsSuccess}
         />
         <Route
-          exact
           path="/complaint-failure"
           component={ComplaintsFailure}
         />
         <Route
-          exact
-          path="/complaint-success"
-          component={ComplaintsSuccess}
+          path="/complaints"
+          component={Complaints}
         />
       </Switch>
     </Router>
