@@ -1,7 +1,7 @@
 import React from "react"
 import "./complaints.scss"
-import { POST } from "@utils/fetch"
-import { consumer } from "./../../middleware/api"
+import { POST } from "./../utils/fetch"
+// import { consumer } from "./api"
 
 class Complaints extends React.Component {
   constructor() {
@@ -59,17 +59,16 @@ class Complaints extends React.Component {
       })
   }
 
-  handleChange() {
-    const selectedReasonIdx = parseInt(document.getElementById("reason").value)
-    this.setState({
-      reason: this.reasons.find(item => item.value === selectedReasonIdx).text
-    })
+  handleChange(e) {
+    console.log(e.target.value)
+    this.setState({ reason: e.target.value })
   }
 
   handleSubmit() {
     const { message, ottpId, reason } = this.state
+    this.setState({ isSubmitting: true })
     POST({
-      api: `${consumer}/livered/consumer/createComplaints`,
+      api: `/livered/consumer/createComplaints`,
       //apiBase: "api1",
       handleError: false,
       prependBaseUrl: false,
@@ -80,9 +79,11 @@ class Complaints extends React.Component {
       }
     })
       .then((json) => {
+        this.setState({ isSubmitting: false })
         location.href = "/complaint-success"
       })
       .catch((error) => {
+        this.setState({ isSubmitting: false })
         location.href = "/complaint-failure"
       })
   }
@@ -104,12 +105,12 @@ class Complaints extends React.Component {
           <div className="content">
             <div className="form-group">
               <label>Please select a reason</label>
-              <select id="reason" onChange={() => this.handleChange()}>
+              <select id="reason" onChange={this.handleChange}>
                 <option value="" disabled selected>
                   Choose a reason
                 </option>
                 {this.reasons.map(item => {
-                  return <option value={item.value}>{item.text}</option>;
+                  return <option value={item.text}>{item.text}</option>;
                 })}
               </select>
             </div>
@@ -119,13 +120,17 @@ class Complaints extends React.Component {
                 <textarea
                   placeholder="Write a message"
                   value={this.state.message}
-                  onChange={e => this.handleMessageChange(e)}
+                  onChange={this.handleMessageChange}
                 />
                 <p className="os s9"><span id="char_count">{this.state.count}</span> characters {this.state.count < this.characterLimit ? 'remaining' : ''}</p>
               </div>
             </div>
             <div className="form-group">
-              <button onClick={() => this.handleSubmit()}>Submit</button>
+              <button
+                disabled={(this.state.message.length == 0 || this.state.reason.length == 0) || this.state.isSubmitting}
+                onClick={this.handleSubmit}>
+                {!this.state.isSubmitting ? "Submit" : "Submitting.."}
+              </button>
             </div>
           </div>
           <div className="footer">

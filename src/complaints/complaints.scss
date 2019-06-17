@@ -6,12 +6,11 @@
 #complaints {
   &.container .main-header {
     background: #152935;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
-    font-style: italic;
-    letter-spacing: -0.2px;
+    // letter-spacing: -0.2px;
     color: #ffffff;
-    padding: 18px 33px;
+    padding: 16px 24px;
     //height: 66px;
   }
 
@@ -35,14 +34,14 @@
   }
 
   .body .header {
-    padding: 14px 33px;
+    padding: 16px 24px;
     height: 66px;
   }
 
   .body .content {
-    padding: 14px 33px;
+    padding: 16px 24px;
     background: #f9f9f9;
-    height: calc(100% - 66px - 177px);
+    // height: calc(100% - 66px - 177px);
   }
 
   label {
@@ -94,6 +93,9 @@
     text-align: center;
     color: #ffffff;
     width: 90px;
+    &:disabled {
+      opacity: 0.7;
+    }
   }
 
   textarea {
