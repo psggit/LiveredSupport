@@ -19,7 +19,8 @@ function ComplaintFailure() {
         <div className="footer">
           <div>
             <p className="text">For any other support, please contact us</p>
-            <p className="ottp-id">00 800 1008110</p>
+            {/* <p className="ottp-id">00 800 1008110</p> */}
+            <a className="ottp-id" href="tel:00-800-1008110" data-rel="external">00 800 1008110</a>
           </div>
           <div>
             <p className="text" style={{ color: '#4a90e2' }}>Operating hours</p>
