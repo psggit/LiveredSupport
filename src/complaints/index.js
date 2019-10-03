@@ -2,7 +2,7 @@ import React from "react"
 import "./complaints.scss"
 import { POST } from "./../utils/fetch"
 
-const consumer = "https://consumer.livered-dev.com"
+const consumer = "https://consumer-livered.hipbar-dev.com"
 
 class Complaints extends React.Component {
   constructor() {
